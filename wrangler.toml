@@ -1,5 +1,5 @@
 name = "telegram-bot-worker"
-main = "src/main.rs"
+main = "src/lib.rs"
 compatibility_date = "2025-10-05"
 
 [vars]
