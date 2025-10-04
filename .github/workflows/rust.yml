@@ -1,7 +1,7 @@
 name: Deploy to Cloudflare Workers
 
 on:
-  workflow_dispatch: # Enables manual trigger via GitHub UI or API
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,10 +14,12 @@ jobs:
           toolchain: stable
           target: wasm32-unknown-unknown
       - name: Install Wrangler
-        run: npm install -g @cloudflare/wrangler
+        run: npm install -g wrangler
       - name: Build
+        env:
+          RUSTFLAGS: "--cfg wasm_js"
         run: cargo build --release --target wasm32-unknown-unknown
       - name: Publish
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        run: wrangler publish
+        run: wrangler deploy
