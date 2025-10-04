@@ -1,0 +1,14 @@
+name = "telegram-bot-worker"
+main = "src/main.rs"
+compatibility_date = "2025-10-05"
+
+[vars]
+TELEGRAM_BOT_TOKEN = "8300435530:AAED_jiP63rDaEfN3CGs7oj_wEqCeAoxTBQ"
+ADMIN_API_KEY = "KMKZ101TOOLS" # Set via secrets or environment
+REDIS_URL = "https://apt-hedgehog-9092.upstash.io"
+REDIS_TOKEN = "ASOEAAImcDJlOWY2NjYyNWFlNWQ0ZjE3OWI2NTQzZTc1YjE3YTU3ZnAyOTA5Mg"
+
+# Secrets for sensitive data (set via `wrangler secret put`)
+# TELEGRAM_BOT_TOKEN
+# ADMIN_API_KEY
+# REDIS_TOKEN
