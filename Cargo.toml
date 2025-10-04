@@ -8,15 +8,16 @@ crate-type = ["cdylib"]
 path = "src/lib.rs"
 
 [dependencies]
-worker = "0.6.6" # Updated to latest version
+worker = "0.6.6"
 wasm-bindgen = "0.2.93"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-reqwest = { version = "0.12.23", features = ["json"] } # Updated
-rand = "0.9.2" # Updated
-getrandom = { version = "0.2", features = ["js"] } # Added with "js" feature
+reqwest = { version = "0.12.23", features = ["json"] }
+rand = "0.9.2"
+getrandom = { version = "0.3.3", features = ["js"] } # Updated to 0.3.3 with "js" feature
 hex = "0.4"
 console_error_panic_hook = "0.1"
 
-[profile.release]
-opt-level = "s"
+# Patch to ensure getrandom v0.3.3 is used consistently
+[patch.crates-io]
+getrandom = { version = "0.3.3", features = ["js"] }
