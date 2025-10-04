@@ -205,13 +205,21 @@ async fn set_redis_data(key: i64, value: &str, env: &Env) -> Result<()> {
 
 async fn store_otp_to_redis(user_id: i64, otp: &str, env: &Env) -> Result<()> {
     let key = format!("otp:{}", user_id);
-    set_redis_data(key.parse().unwrap(), otp, env).await?;
-    // Set expiration to 5 minutes (300 seconds)
     let redis_url = env.var("REDIS_URL")?.to_string();
     let redis_token = env.var("REDIS_TOKEN")?.to_string();
     let client = Client::new();
-    let url = format!("{}/expire/{}:{}", redis_url, key, 300);
+    let url = format!("{}/set/{}:{}", redis_url, key, otp);
     
+    let response = client.post(&url)
+        .header("Authorization", format!("Bearer {}", redis_token))
+        .send().await?;
+    
+    if !response.status().is_success() {
+        return Err(Error::RustError("Failed to store OTP".to_string()));
+    }
+    
+    // Set expiration to 5 minutes (300 seconds)
+    let url = format!("{}/expire/{}:{}", redis_url, key, 300);
     let response = client.post(&url)
         .header("Authorization", format!("Bearer {}", redis_token))
         .send().await?;
@@ -224,11 +232,61 @@ async fn store_otp_to_redis(user_id: i64, otp: &str, env: &Env) -> Result<()> {
 
 async fn retrieve_otp_from_redis(user_id: i64, env: &Env) -> Result<Option<String>> {
     let key = format!("otp:{}", user_id);
-    let result = get_redis_data(key.parse().unwrap(), env).await;
-    match result {
-        Ok(data) => Ok(Some(data)),
-        Err(_) => Ok(None),
+    let redis_url = env.var("REDIS_URL")?.to_string();
+    let redis_token = env.var("REDIS_TOKEN")?.to_string();
+    let client = Client::new();
+    let url = format!("{}/get/{}", redis_url, key);
+    
+    let response = client.get(&url)
+        .header("Authorization", format!("Bearer {}", redis_token))
+        .send().await?;
+    
+    if !response.status().is_success() {
+        return Ok(None);
     }
+    
+    let data: serde_json::Value = response.json().await?;
+    Ok(data["result"].as_str().map(|s| s.to_string()))
+}
+
+async fn add_user_to_set(user_id: i64, env: &Env) -> Result<()> {
+    let redis_url = env.var("REDIS_URL")?.to_string();
+    let redis_token = env.var("REDIS_TOKEN")?.to_string();
+    let client = Client::new();
+    let url = format!("{}/sadd/users/{}", redis_url, user_id);
+    
+    let response = client.post(&url)
+        .header("Authorization", format!("Bearer {}", redis_token))
+        .send().await?;
+    
+    if !response.status().is_success() {
+        return Err(Error::RustError("Failed to add user to set".to_string()));
+    }
+    Ok(())
+}
+
+async fn get_all_user_ids(env: &Env) -> Result<Vec<i64>> {
+    let redis_url = env.var("REDIS_URL")?.to_string();
+    let redis_token = env.var("REDIS_TOKEN")?.to_string();
+    let client = Client::new();
+    let url = format!("{}/smembers/users", redis_url);
+    
+    let response = client.get(&url)
+        .header("Authorization", format!("Bearer {}", redis_token))
+        .send().await?;
+    
+    if !response.status().is_success() {
+        return Err(Error::RustError("Failed to fetch user IDs".to_string()));
+    }
+    
+    let data: serde_json::Value = response.json().await?;
+    let user_ids: Vec<i64> = data["result"]
+        .as_array()
+        .unwrap_or(&vec![])
+        .iter()
+        .filter_map(|v| v.as_str().and_then(|s| s.parse().ok()))
+        .collect();
+    Ok(user_ids)
 }
 
 #[event(fetch)]
@@ -248,11 +306,11 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
                     
                     if text == "/start" {
                         let welcome_message = format!(
-                            "🌐 *Halo, {}!* Selamat datang \n\n\
-                            👾 ID Pengguna kamu: {}. \n\n\
-                            🔁 Tolong jaga sikap, Jangan Sok Pro. \n\n\
-                            ☕ Yang melanggar Akan Terkena Blokir Dan Tidak Akan Bisa Login Dll 😝. \n\n\
-                            🔧 Catat baik-baik🖕🖕",
+                            "*Halo, {}!* Selamat datang \n\n\
+                            ID Pengguna kamu: {}. \n\n\
+                            Tolong jaga sikap, Jangan Sok Pro. \n\n\
+                            Yang melanggar Akan Terkena Blokir Dan Tidak Akan Bisa Login Dll 😝. \n\n\
+                            Catat baik-baik🖕🖕",
                             username, user_id
                         );
                         send_telegram_message(chat_id, welcome_message, &ctx.env).await?;
@@ -286,15 +344,15 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             
             let otp = generate_otp();
             let otp_message = format!(
-                "🎉 *Registration Successful!* \n\n\
-                🔐 *Your OTP*: `{}` \n\
+                "*Registration Successful!* \n\n\
+                *Your OTP*: `{}` \n\
                 Please verify this OTP to activate your account and login. \n\
-                ⏳ *Expires in 5 minutes*.",
-                otp
+                *Expires in 5 minutes*.", otp
             );
             
             send_telegram_message(user_id, otp_message, &ctx.env).await?;
             set_redis_data(user_id, &serde_json::to_string(&user_data)?, &ctx.env).await?;
+            add_user_to_set(user_id, &ctx.env).await?;
             store_otp_to_redis(user_id, &otp, &ctx.env).await?;
             
             Response::from_json(&json!({
@@ -318,16 +376,16 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             store_otp_to_redis(user_id, &otp, &ctx.env).await?;
             let otp_message = if !user.is_verified {
                 format!(
-                    "🔐 *Verification OTP Generated!* \n\n\
-                    🔑 *Your OTP*: `{}` \n\
+                    "*Verification OTP Generated!* \n\n\
+                    *Your OTP*: `{}` \n\
                     Please verify this OTP to activate your account and login. \n\
-                    ⏳ *Expires in 5 minutes*.", otp
+                    *Expires in 5 minutes*.", otp
                 )
             } else {
                 format!(
-                    "🔐 *Login OTP Generated!* \n\n\
-                    🔑 *Your OTP*: `{}` \n\
-                    ⏳ *Expires in 5 minutes*.", otp
+                    "*Login OTP Generated!* \n\n\
+                    *Your OTP*: `{}` \n\
+                    *Expires in 5 minutes*.", otp
                 )
             };
             
@@ -347,16 +405,16 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             store_otp_to_redis(user_id, &otp, &ctx.env).await?;
             let otp_message = if !user.is_verified {
                 format!(
-                    "🔐 *Verification OTP Generated!* \n\n\
-                    🔑 *Your OTP*: `{}` \n\
+                    "*Verification OTP Generated!* \n\n\
+                    *Your OTP*: `{}` \n\
                     Please verify this OTP to activate your account and login. \n\
-                    ⏳ *Expires in 5 minutes*.", otp
+                    *Expires in 5 minutes*.", otp
                 )
             } else {
                 format!(
-                    "🔐 *New OTP Generated!* \n\n\
-                    🔑 *Your OTP*: `{}` \n\
-                    ⏳ *Expires in 5 minutes*.", otp
+                    "*New OTP Generated!* \n\n\
+                    *Your OTP*: `{}` \n\
+                    *Expires in 5 minutes*.", otp
                 )
             };
             
@@ -380,9 +438,9 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             set_redis_data(user_id, &serde_json::to_string(&user)?, &ctx.env).await?;
             
             let otp_verified_message = format!(
-                "✅ *OTP Verified Successfully!* \n\n\
-                🎉 Welcome back, {}! \n\
-                📌 You are now logged in.", user.username
+                "*OTP Verified Successfully!* \n\n\
+                Welcome back, {}! \n\
+                You are now logged in.", user.username
             );
             send_telegram_message(user_id, otp_verified_message, &ctx.env).await?;
             
@@ -395,17 +453,27 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             let broadcast: BroadcastRequest = req.json().await?;
             verify_admin_api_key(&broadcast.api_key, &ctx.env).await?;
             
-            // Note: Redis KEYS command is not directly supported in Upstash REST API.
-            // For simplicity, assume a separate endpoint or manual iteration.
-            // This is a limitation; consider storing user IDs separately in production.
-            let users: Vec<User> = vec![]; // Placeholder: Implement user list retrieval
+            let user_ids = get_all_user_ids(&ctx.env).await?;
+            let mut users = vec![];
+            for user_id in user_ids {
+                if let Ok(user_data) = get_redis_data(user_id, &ctx.env).await {
+                    if let Ok(user) = serde_json::from_str(&user_data) {
+                        users.push(user);
+                    }
+                }
+            }
+            
+            if users.is_empty() {
+                return Response::error("No users found", 404);
+            }
+            
             let broadcast_message = format!(
-                "📢 *Broadcast Message* \n\n\
+                "*Broadcast Message* \n\n\
                 {}. \n\n", broadcast.message
             );
             
             let mut failed_users = vec![];
-            for user in users {
+            for user in &users {
                 if let Err(e) = send_telegram_message(user.user_id, broadcast_message.clone(), &ctx.env).await {
                     failed_users.push(user.user_id);
                     console_log!("Failed to send broadcast to user {}: {}", user.user_id, e);
@@ -427,8 +495,16 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             let admin_request: AdminRequest = req.json().await?;
             verify_admin_api_key(&admin_request.api_key, &ctx.env).await?;
             
-            // Placeholder: Implement user list retrieval
-            let users: Vec<User> = vec![];
+            let user_ids = get_all_user_ids(&ctx.env).await?;
+            let mut users = vec![];
+            for user_id in user_ids {
+                if let Ok(user_data) = get_redis_data(user_id, &ctx.env).await {
+                    if let Ok(user) = serde_json::from_str(&user_data) {
+                        users.push(user);
+                    }
+                }
+            }
+            
             Response::from_json(&json!({ "users": users }))
         })
         .post_async("/block_user", |mut req, ctx| async move {
@@ -445,13 +521,13 @@ async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
             let status = if block.block { "blocked" } else { "unblocked" };
             let block_message = if let Some(custom_message) = block.custom_message {
                 format!(
-                    "⚠️ *Account Status Update* \n\n\
+                    "*Account Status Update* \n\n\
                     Your account has been *{}*. \n\
-                    📩 *Message from Admin*: {}. \n", status, custom_message
+                    *Message from Admin*: {}. \n", status, custom_message
                 )
             } else {
                 format!(
-                    "⚠️ *Account Status Update* \n\n\
+                    "*Account Status Update* \n\n\
                     Your account has been *{}*. \n", status
                 )
             };
