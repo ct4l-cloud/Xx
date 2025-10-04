@@ -218,7 +218,6 @@ async fn store_otp_to_redis(user_id: i64, otp: &str, env: &Env) -> Result<()> {
         return Err(Error::RustError("Failed to store OTP".to_string()));
     }
     
-    // Set expiration to 5 minutes (300 seconds)
     let url = format!("{}/expire/{}:{}", redis_url, key, 300);
     let response = client.post(&url)
         .header("Authorization", format!("Bearer {}", redis_token))
