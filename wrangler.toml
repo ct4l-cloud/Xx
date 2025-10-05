@@ -7,7 +7,7 @@ main = "index.js"
 # KV Namespace untuk OTP
 [[kv_namespaces]]
 binding = "KV_OTP"
-id = "YOUR_KV_OTP_NAMESPACE_ID"  # Ganti dengan ID dari Cloudflare Dashboard
+id = "ed09407ebd584ca08f7b241ec0b911c7"  # Ganti dengan ID dari Cloudflare Dashboard
 
 # Environment variables untuk production
 [vars]
