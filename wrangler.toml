@@ -4,11 +4,6 @@ name = "telegram-bot-worker"
 compatibility_date = "2025-10-05"
 main = "index.js"
 
-# KV Namespace untuk OTP
-[[kv_namespaces]]
-binding = "KV_OTP"
-id = "ed09407ebd584ca08f7b241ec0b911c7"  # Ganti dengan ID dari Cloudflare Dashboard
-
 # Environment variables untuk production
 [vars]
 # Secrets diatur via `wrangler secret put`
@@ -18,7 +13,12 @@ ADMIN_API_KEY = "${ADMIN_API_KEY}"
 UPSTASH_REDIS_REST_URL = "${UPSTASH_REDIS_REST_URL}"
 UPSTASH_REDIS_REST_TOKEN = "${UPSTASH_REDIS_REST_TOKEN}"
 
+# KV Namespace untuk OTP di environment production
 [env.production]
+[[env.production.kv_namespaces]]
+binding = "KV_OTP"
+id = "ed09407ebd584ca08f7b241ec0b911c7"  # Ganti dengan ID dari Cloudflare Dashboard
+
 # route = "example.com/*" # Uncomment jika pakai custom domain
 
 [build]
