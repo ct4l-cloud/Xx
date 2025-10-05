@@ -1,14 +1,25 @@
+# wrangler.toml
+
 name = "telegram-bot-worker"
-main = "src/lib.rs"
 compatibility_date = "2025-10-05"
+main = "index.js"
 
+# KV Namespace untuk OTP
+[[kv_namespaces]]
+binding = "KV_OTP"
+id = "YOUR_KV_OTP_NAMESPACE_ID"  # Ganti dengan ID dari Cloudflare Dashboard
+
+# Environment variables untuk production
 [vars]
-TELEGRAM_BOT_TOKEN = "8300435530:AAED_jiP63rDaEfN3CGs7oj_wEqCeAoxTBQ"
-ADMIN_API_KEY = "KMKZ101TOOLS" # Set via secrets or environment
-REDIS_URL = "https://apt-hedgehog-9092.upstash.io"
-REDIS_TOKEN = "ASOEAAImcDJlOWY2NjYyNWFlNWQ0ZjE3OWI2NTQzZTc1YjE3YTU3ZnAyOTA5Mg"
+# Secrets diatur via `wrangler secret put`
+[[env.production.vars]]
+TELEGRAM_BOT_TOKEN = "${TELEGRAM_BOT_TOKEN}"
+ADMIN_API_KEY = "${ADMIN_API_KEY}"
+UPSTASH_REDIS_REST_URL = "${UPSTASH_REDIS_REST_URL}"
+UPSTASH_REDIS_REST_TOKEN = "${UPSTASH_REDIS_REST_TOKEN}"
 
-# Secrets for sensitive data (set via `wrangler secret put`)
-# TELEGRAM_BOT_TOKEN
-# ADMIN_API_KEY
-# REDIS_TOKEN
+[env.production]
+# route = "example.com/*" # Uncomment jika pakai custom domain
+
+[build]
+command = "npm install"
