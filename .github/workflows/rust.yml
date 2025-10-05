@@ -29,9 +29,9 @@ jobs:
         run: |
           npm install -g javascript-obfuscator
 
-      - name: Obfuscate worker.js
+      - name: Obfuscate index.js
         run: |
-          javascript-obfuscator worker.js --output worker.js \
+          javascript-obfuscator index.js --output index.js \
             --compact true \
             --control-flow-flattening true \
             --control-flow-flattening-threshold 1 \
