@@ -16,8 +16,8 @@ UPSTASH_REDIS_REST_TOKEN = "${UPSTASH_REDIS_REST_TOKEN}"
 # KV Namespace untuk OTP di environment production
 [env.production]
 [[env.production.kv_namespaces]]
-binding = "KV_OTP"
-id = "ed09407ebd584ca08f7b241ec0b911c7"  # Ganti dengan ID dari Cloudflare Dashboard
+#binding = "KV_OTP"
+#id = "ed09407ebd584ca08f7b241ec0b911c7"  # Ganti dengan ID dari Cloudflare Dashboard
 
 # route = "example.com/*" # Uncomment jika pakai custom domain
 
