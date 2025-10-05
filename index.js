@@ -1,18 +1,11 @@
 // index.js
-// Cloudflare Worker untuk Telegram Bot dengan Upstash Redis (users) dan Cloudflare KV (OTP)
-// Deploy: npm init -y && npm i @upstash/redis && wrangler deploy
-// Pastikan secrets diatur via: wrangler secret put TELEGRAM_BOT_TOKEN, ADMIN_API_KEY, UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN
-
-import { Redis } from '@upstash/redis';
+// Cloudflare Worker untuk Telegram Bot dengan Cloudflare KV
+// Deploy: npm init -y && npm i && wrangler deploy
+// Pastikan secrets diatur via: wrangler secret put TELEGRAM_BOT_TOKEN, ADMIN_API_KEY
 
 export default {
   async fetch(request, env, ctx) {
-    // Inisialisasi Redis dan variabel dari env
-    const redis = new Redis({
-      url: env.UPSTASH_REDIS_REST_URL,
-      token: env.UPSTASH_REDIS_REST_TOKEN,
-    });
-
+    // Variabel dari env
     const TELEGRAM_BOT_TOKEN = env.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
     const ADMIN_API_KEY = env.ADMIN_API_KEY;
@@ -26,7 +19,7 @@ export default {
           body: JSON.stringify({
             chat_id: chatId,
             text,
-            parse_mode: 'Markdown'  // Menggunakan Markdown (bukan MarkdownV2)
+            parse_mode: 'Markdown'
           })
         });
         if (!response.ok) {
@@ -56,7 +49,7 @@ export default {
     }
 
     async function verifyAPIKey(userId, apiKey) {
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
@@ -80,7 +73,7 @@ export default {
     }
 
     async function checkUserStatus(userId) {
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
@@ -151,7 +144,7 @@ export default {
     // API Handlers
     async function handleRegister(body) {
       const { user_id: userId } = body;
-      const existingUser = await redis.get(`user:${userId}`);
+      const existingUser = await env.KV_USERS.get(`user:${userId}`);
       if (existingUser) {
         throw new Error('User already exists', { status: 400 });
       }
@@ -174,7 +167,7 @@ export default {
         `⏳ *Expires in 5 minutes*.`;
       await sendTelegramMessage(userId, otpMessage);
 
-      await redis.set(`user:${userId}`, JSON.stringify(userData));
+      await env.KV_USERS.put(`user:${userId}`, JSON.stringify(userData));
       await storeOTP(userId, otp);
 
       return { message: 'User registered. Please verify OTP to activate account.', api_key: apiKey };
@@ -182,7 +175,7 @@ export default {
 
     async function handleLogin(body) {
       const { user_id: userId } = body;
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
@@ -209,7 +202,7 @@ export default {
 
     async function handleOTPRequest(body) {
       const { user_id: userId, api_key: apiKey } = body;
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
@@ -239,7 +232,7 @@ export default {
 
     async function handleVerifyOTP(body) {
       const { user_id: userId, otp } = body;
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
@@ -259,7 +252,7 @@ export default {
       }
 
       user.is_verified = true;
-      await redis.set(`user:${userId}`, JSON.stringify(user));
+      await env.KV_USERS.put(`user:${userId}`, JSON.stringify(user));
       await deleteOTP(userId);
 
       const otpVerifiedMessage = `✅ *OTP Verified Successfully!*\n\n` +
@@ -278,15 +271,16 @@ export default {
       const { api_key: apiKey, message } = body;
       await verifyAdminAPIKey(apiKey);
 
-      const keys = await redis.keys('user:*');
+      // List semua user dari KV (menggunakan list untuk iterasi)
+      const keys = await env.KV_USERS.list({ prefix: 'user:' });
       const users = [];
-      for (const key of keys) {
-        const userData = await redis.get(key);
+      for (const key of keys.keys) {
+        const userData = await env.KV_USERS.get(key.name);
         if (userData) {
           try {
             users.push(JSON.parse(userData));
           } catch (e) {
-            console.error(`Error decoding user data for ${key}:`, e);
+            console.error(`Error decoding user data for ${key.name}:`, e);
           }
         }
       }
@@ -321,10 +315,10 @@ export default {
       const { api_key: apiKey } = body;
       await verifyAdminAPIKey(apiKey);
 
-      const keys = await redis.keys('user:*');
+      const keys = await env.KV_USERS.list({ prefix: 'user:' });
       const users = [];
-      for (const key of keys) {
-        const userData = await redis.get(key);
+      for (const key of keys.keys) {
+        const userData = await env.KV_USERS.get(key.name);
         if (userData) {
           users.push(JSON.parse(userData));
         }
@@ -336,13 +330,13 @@ export default {
       const { user_id: userId, block, api_key: apiKey, custom_message: customMessage } = body;
       await verifyAdminAPIKey(apiKey);
 
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
       const user = JSON.parse(userData);
       user.is_blocked = block;
-      await redis.set(`user:${userId}`, JSON.stringify(user));
+      await env.KV_USERS.put(`user:${userId}`, JSON.stringify(user));
 
       const status = block ? 'blocked' : 'unblocked';
       let blockMessage;
@@ -371,7 +365,7 @@ export default {
         }
       }
 
-      const userData = await redis.get(`user:${userId}`);
+      const userData = await env.KV_USERS.get(`user:${userId}`);
       if (!userData) {
         throw new Error('User not found', { status: 404 });
       }
