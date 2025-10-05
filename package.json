@@ -1,0 +1,11 @@
+{
+  "name": "telegram-bot-worker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.35.4"
+  }
+}
