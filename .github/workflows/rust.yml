@@ -7,14 +7,7 @@ on:
         description: 'Worker Name'
         required: true
         type: string
-      subDomain:
-        description: 'Sub domain only'
-        required: true
-        type: string
-      domain:
-        description: 'Domain name at cf'
-        required: true
-        type: string
+      
 
 jobs:
   deploy:
@@ -31,20 +24,14 @@ jobs:
       - name: Install wrangler
         run: |
           npm install -g wrangler
-          
-      
-      - name: Install dependencies
-        run: |
-          npm install @upstash/redis
-          
 
       - name: Install javascript-obfuscator
         run: |
           npm install -g javascript-obfuscator
 
-      - name: Obfuscate index.js
+      - name: Obfuscate worker.js
         run: |
-          javascript-obfuscator index.js --output index.js \
+          javascript-obfuscator worker.js --output worker.js \
             --compact true \
             --control-flow-flattening true \
             --control-flow-flattening-threshold 1 \
@@ -57,6 +44,10 @@ jobs:
             --string-array-threshold 1 \
             --transform-object-keys true \
             --unicode-escape-sequence true
+
+      - name: Update wrangler
+        run: |
+          sed -i 's/^name = .*/name = "${{ github.event.inputs.workerName }}"/' wrangler.toml
 
       - name: Publish worker to Cloudflare
         env:
