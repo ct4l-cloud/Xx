@@ -1,10 +1,20 @@
-
-# .github/workflows/deploy.yml
-
-name: Deploy to Cloudflare Workers
+name: Cloudflare Worker web
 
 on:
-  workflow_dispatch:  # Trigger manual
+  workflow_dispatch:
+    inputs:
+      workerName:
+        description: 'Worker Name'
+        required: true
+        type: string
+      subDomain:
+        description: 'Sub domain only'
+        required: true
+        type: string
+      domain:
+        description: 'Domain name at cf'
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -21,11 +31,13 @@ jobs:
       - name: Install wrangler
         run: |
           npm install -g wrangler
-
-      # Install dependensi
+          
+      
       - name: Install dependencies
-        run: npm install @upstash/redis
-             
+        run: |
+          npm install @upstash/redis
+          
+
       - name: Install javascript-obfuscator
         run: |
           npm install -g javascript-obfuscator
@@ -44,13 +56,9 @@ jobs:
             --string-array-encoding 'rc4' \
             --string-array-threshold 1 \
             --transform-object-keys true \
-            --unicode-escape-sequence true   
-        
+            --unicode-escape-sequence true
 
-      # Publish worker to Cloudflare
       - name: Publish worker to Cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: wrangler deploy 
-
-      
+        run: wrangler deploy
