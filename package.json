@@ -148,35 +148,5 @@
         "overwrite_amount": 19500,
         "token_confirmation_idx": 1,
         "amount_idx": -1
-    },
-    {
-        "name": "Xtra Combo Flex tesl",
-        "price": "Rp19500",
-        "detail": "Pastikan tidak memiliki paket Xtra Combo Flex\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "Special dikotamu",
-                "family_code": "8da393e6-51ed-49f3-94b6-f28ab16f88a9",
-                "is_enterprise": false,
-                "migration_type": "NONE",
-                "variant_code": "cd52a6a4-8fe3-4a0a-a197-06bc558117e0",
-                "option_name": "Xtra Combo Flex L",
-                "order": 3
-            },
-            {
-                "family_name": "Work & School",
-                "family_code": "5d63dddd-4f90-4f4c-8438-2f005c20151f",
-                "is_enterprise": false,
-                "variant_name": "Work & School",
-                "variant_code": "5b59c55b-0dc7-4f34-a6e9-6afa233ad53b",
-                "option_name": "Education 2GB",
-                "order": 6
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": true,
-        "overwrite_amount": -1,
-        "token_confirmation_idx": 0,
-        "amount_idx": -1
     }
 ]
