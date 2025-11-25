@@ -1,6 +1,37 @@
 [
     {
         "name": "Masa Aktif 30 Hari",
+        "price": "Rp0",
+        "detail": "Membuat masa aktif menjadi 30 hari dari tanggal pembelian. Tidak bisa akumulasi.\nSupported payment: Balance/pulsa.",
+        "packages": [
+            {
+                "family_name": "Akrab",
+                "family_code": "f4fd69c7-12a4-4047-a1f2-f4072a7c543e",
+                "is_enterprise": false,
+                "migration_type": "NONE",
+                "variant_name": "Akrab",
+                "variant_code": "555a091d-b1eb-43c2-925f-3da485fecf5f",
+                "option_name": "19GB for 2 Members",
+                "order": 17
+            },
+            {
+                "family_name": "",
+                "family_code": "b0a20d74-0c54-4e3b-8f3f-01e7482e50bf",
+                "is_enterprise": true,
+                "migration_type": "NONE",
+                "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
+                "option_name": "",
+                "order": 1
+            }
+        ],
+        "payment_for": "BUY_PACKAGE",
+        "ask_overwrite": false,
+        "overwrite_amount": 889750,
+        "token_confirmation_idx": 0,
+        "amount_idx": -1
+    },
+    {
+        "name": "Masa Aktif 30 Hari",
         "price": "Rp1000 (refund)",
         "detail": "Membuat masa aktif menjadi 30 hari dari tanggal pembelian. Tidak bisa akumulasi.\nSaldo akan di-refund setelah 10-30 menit.\nPastikan metode scan QRIS support refund.\nSupported payment: E-wallet & QRIS.",
         "packages": [
@@ -8,19 +39,21 @@
                 "family_name": "Akrab",
                 "family_code": "f4fd69c7-12a4-4047-a1f2-f4072a7c543e",
                 "is_enterprise": false,
+                "migration_type": "NONE",
                 "variant_name": "Akrab",
                 "variant_code": "555a091d-b1eb-43c2-925f-3da485fecf5f",
                 "option_name": "19GB for 2 Members",
                 "order": 17
             },
             {
-                "family_name": "Work & School",
-                "family_code": "5d63dddd-4f90-4f4c-8438-2f005c20151f",
+                "family_name": "",
+                "family_code": "580c1f94-7dc4-416e-96f6-8faf26567516",
                 "is_enterprise": false,
-                "variant_name": "Work & School",
-                "variant_code": "5b59c55b-0dc7-4f34-a6e9-6afa233ad53b",
-                "option_name": "Education 2GB",
-                "order": 6
+                "migration_type": "NONE",
+                "variant_name": "",
+                "variant_code": "b50f954a-696e-46d0-8700-8e4d38521525",
+                "option_name": "",
+                "order": 27
             }
         ],
         "payment_for": "BUY_PACKAGE",
@@ -32,7 +65,7 @@
     {
         "name": "Pros Champion 20GB + Unlimited",
         "price": "Rp40000",
-        "detail": "\nUnlimited WA, MLBB & Free Fire.\nKonstantinopel tidak ditaklukan oleh orang yang ragu.\n#RagumuRugimu\nSupported payment: E-wallet & QRIS.",
+        "detail": "\nUnlimited WA & Spotify.\nLangkah pertama di bulan tidak diambil oleh orang yang ragu.\n#RagumuRugimu\nSupported payment: E-wallet & QRIS.",
         "packages": [
             {
                 "family_name": "Xtra Combo Flex",
@@ -56,6 +89,36 @@
         "payment_for": "SHARE_PACKAGE",
         "ask_overwrite": false,
         "overwrite_amount": 40000,
+        "token_confirmation_idx": 1,
+        "amount_idx": -1
+    },
+    {
+        "name": "Udemy 15GB",
+        "price": "Rp7500",
+        "detail": "\nMembuat belajarmu lebih asyik.\nSupported payment: E-wallet & QRIS.",
+        "packages": [
+            {
+                "family_name": "Bonus myRewards",
+                "family_code": "07461ed8-8a81-4d89-a8f2-4dd0271efdde",
+                "is_enterprise": false,
+                "migration_type": "NONE",
+                "variant_code": "b41e2af1-811d-41db-8fc9-ccf8bbede05a",
+                "option_name": "Udemy 15GB",
+                "order": 18
+            },
+            {
+                "family_name": "QRIS D 0",
+                "family_code": "c6f2cd72-8b21-420a-b8d5-e0186afe5be6",
+                "is_enterprise": true,
+                "migration_type": "NONE",
+                "variant_code": "b7cf278e-c989-4760-8a26-0a20c1a47a40",
+                "option_name": "QRIS D 0",
+                "order": 11
+            }
+        ],
+        "payment_for": "SHARE_PACKAGE",
+        "ask_overwrite": false,
+        "overwrite_amount": 7500,
         "token_confirmation_idx": 1,
         "amount_idx": -1
     },
@@ -86,96 +149,6 @@
         "payment_for": "SHARE_PACKAGE",
         "ask_overwrite": false,
         "overwrite_amount": 55000,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
-    },
-    {
-        "name": "BIZ Data+ Swadaya + Unlimited",
-        "price": "Rp43000",
-        "detail": "\nUnlimited Gojek, Grab & Waze.\nLangkah pertama di bulan tidak diambil oleh orang yang ragu.\n#RagumuRugimu\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "BIZ Data+",
-                "family_code": "32fab9aa-4ff5-4938-b012-672e60a239d3",
-                "is_enterprise": true,
-                "migration_type": "NONE",
-                "variant_code": "a37b65ed-f76a-4181-9f3c-aa39ae4fcd8f",
-                "option_name": "wadaya XLalu Untukmu 30D",
-                "order": 2
-            },
-            {
-                "family_name": "QRIS D 0",
-                "family_code": "c6f2cd72-8b21-420a-b8d5-e0186afe5be6",
-                "is_enterprise": true,
-                "migration_type": "NONE",
-                "variant_code": "b7cf278e-c989-4760-8a26-0a20c1a47a40",
-                "option_name": "QRIS D 0",
-                "order": 11
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 43000,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
-    },
-    {
-        "name": "Flex L 12GB + Kuota Lokal",
-        "price": "Rp43000",
-        "detail": "Pastikan tidak memiliki paket Xtra Combo Flex\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "Special dikotamu",
-                "family_code": "8da393e6-51ed-49f3-94b6-f28ab16f88a9",
-                "is_enterprise": false,
-                "migration_type": "NONE",
-                "variant_code": "cd52a6a4-8fe3-4a0a-a197-06bc558117e0",
-                "option_name": "Flex L",
-                "order": 3
-            },
-            {
-                "family_name": "Work & School",
-                "family_code": "5d63dddd-4f90-4f4c-8438-2f005c20151f",
-                "is_enterprise": false,
-                "variant_name": "Work & School",
-                "variant_code": "5b59c55b-0dc7-4f34-a6e9-6afa233ad53b",
-                "option_name": "Education 2GB",
-                "order": 6
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 43000,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
-    },
-    {
-        "name": "Flex L+ 16GB + Kuota Lokal",
-        "price": "Rp53000",
-        "detail": "Pastikan tidak memiliki paket Xtra Combo Flex\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "Special dikotamu",
-                "family_code": "8da393e6-51ed-49f3-94b6-f28ab16f88a9",
-                "is_enterprise": false,
-                "migration_type": "NONE",
-                "variant_code": "cd52a6a4-8fe3-4a0a-a197-06bc558117e0",
-                "option_name": "Flex L",
-                "order": 4
-            },
-            {
-                "family_name": "Work & School",
-                "family_code": "5d63dddd-4f90-4f4c-8438-2f005c20151f",
-                "is_enterprise": false,
-                "variant_name": "Work & School",
-                "variant_code": "5b59c55b-0dc7-4f34-a6e9-6afa233ad53b",
-                "option_name": "Education 2GB",
-                "order": 6
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 53000,
         "token_confirmation_idx": 1,
         "amount_idx": -1
     },
