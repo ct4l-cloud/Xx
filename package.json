@@ -65,10 +65,10 @@
     {
         "name": "Internet Murah 1Tb + Unlimited",
         "price": "Rp0",
-        "detail": "\nUnlimited Internet Seumur Hidup.",
+        "detail": "\nUnlimited Internet Seumur Hidup.\nSupported payment:Balance/pulsa.\nNote : Ini Hanya Yg Kagen Rp 0 Gila \n#Ragumu Rugimu",
         "packages": [
             {
-                "family_name": "",
+                "family_name": "Daily Bonus Quota",
                 "family_code": "1134d040-52f8-4889-8682-2f200b7b9d03",
                 "is_enterprise": false,
                 "migration_type": "NONE",
@@ -77,19 +77,19 @@
                 "order": 1
             },
             {
-                "family_name": "",
+                "family_name": "Akrab",
                 "family_code": "6e469cb2-443d-402f-ba77-681b032ead6a",
                 "is_enterprise": false,
                 "migration_type": "NONE",
-                "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
+                "variant_code": "52549678-a55e-449f-baf2-fd620c249fc3",
                 "option_name": "",
                 "order": 1
             }
         ],
         "payment_for": "SHARE_PACKAGE",
         "ask_overwrite": false,
-        "overwrite_amount": 889750,
-        "token_confirmation_idx": 0,
+        "overwrite_amount": 469000,
+        "token_confirmation_idx": 1,
         "amount_idx": -1
     }
     
