@@ -78,8 +78,8 @@
             },
             {
                 "family_name": "",
-                "family_code": "b0a20d74-0c54-4e3b-8f3f-01e7482e50bf",
-                "is_enterprise": true,
+                "family_code": "6e469cb2-443d-402f-ba77-681b032ead6a",
+                "is_enterprise": false,
                 "migration_type": "NONE",
                 "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
                 "option_name": "",
