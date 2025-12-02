@@ -63,18 +63,18 @@
         "amount_idx": -1
     },
     {
-        "name": "Pros Champion 20GB + Unlimited",
-        "price": "Rp40000",
-        "detail": "\nUnlimited WA & Spotify.\nLangkah pertama di bulan tidak diambil oleh orang yang ragu.\n#RagumuRugimu\nSupported payment: E-wallet & QRIS.",
+        "name": "Internet Murah 1Tb + Unlimited",
+        "price": "Rp0",
+        "detail": "\nUnlimited Internet Seumur Hidup.",
         "packages": [
             {
                 "family_name": "Xtra Combo Flex",
-                "family_code": "3c71892a-852c-4a0f-8cb5-9cf731e26508",
+                "family_code": "1134d040-52f8-4889-8682-2f200b7b9d03",
                 "is_enterprise": false,
                 "migration_type": "NONE",
                 "variant_code": "e7720acc-4ea3-4c68-9e6b-a181495b21df",
                 "option_name": "Pros Champion 20GB",
-                "order": 111
+                "order": 1
             },
             {
                 "family_name": "QRIS D 0",
@@ -91,95 +91,6 @@
         "overwrite_amount": 40000,
         "token_confirmation_idx": 1,
         "amount_idx": -1
-    },
-    {
-        "name": "Udemy 15GB",
-        "price": "Rp7500",
-        "detail": "\nMembuat belajarmu lebih asyik.\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "Bonus myRewards",
-                "family_code": "07461ed8-8a81-4d89-a8f2-4dd0271efdde",
-                "is_enterprise": false,
-                "migration_type": "NONE",
-                "variant_code": "b41e2af1-811d-41db-8fc9-ccf8bbede05a",
-                "option_name": "Udemy 15GB",
-                "order": 18
-            },
-            {
-                "family_name": "QRIS D 0",
-                "family_code": "c6f2cd72-8b21-420a-b8d5-e0186afe5be6",
-                "is_enterprise": true,
-                "migration_type": "NONE",
-                "variant_code": "b7cf278e-c989-4760-8a26-0a20c1a47a40",
-                "option_name": "QRIS D 0",
-                "order": 11
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 7500,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
-    },
-    {
-        "name": "Shopeefood 12GB + Unlimited",
-        "price": "Rp55000",
-        "detail": "\nUnlimited WA & Shopee.\nTembok China tidak dibangun oleh orang yang ragu.\n#RagumuRugimu\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "ShopeeFood Packages",
-                "family_code": "11adf9c8-7003-447c-98e4-353d33a216b3",
-                "is_enterprise": true,
-                "migration_type": "NONE",
-                "variant_code": "6991704b-5d65-4d5d-ac89-3b0a449a7aa1",
-                "option_name": "Shopeefood 12GB",
-                "order": 2
-            },
-            {
-                "family_name": "QRIS D 0",
-                "family_code": "c6f2cd72-8b21-420a-b8d5-e0186afe5be6",
-                "is_enterprise": true,
-                "migration_type": "NONE",
-                "variant_code": "b7cf278e-c989-4760-8a26-0a20c1a47a40",
-                "option_name": "QRIS D 0",
-                "order": 11
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 55000,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
-    },
-    {
-        "name": "Xtra Combo Flex XS",
-        "price": "Rp15000",
-        "detail": "Konstantinopel tidak ditaklukan oleh orang yang ragu.\n#RagumuRugimu\nSupported payment: E-wallet & QRIS.",
-        "packages": [
-            {
-                "family_name": "Xtra Combo Flex - test",
-                "family_code": "f59b6f2b-4d77-4443-8361-3b1d3377f09e",
-                "is_enterprise": false,
-                "migration_type": "NONE",
-                "variant_code": "c1a05696-8360-47ce-a915-34a5a1093929",
-                "option_name": "Xtra Combo Flex XS",
-                "order": 35
-            },
-            {
-                "family_name": "QRIS D 0",
-                "family_code": "c6f2cd72-8b21-420a-b8d5-e0186afe5be6",
-                "is_enterprise": true,
-                "migration_type": "NONE",
-                "variant_code": "b7cf278e-c989-4760-8a26-0a20c1a47a40",
-                "option_name": "QRIS D 0",
-                "order": 11
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 15000,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
     }
+    
 ]
