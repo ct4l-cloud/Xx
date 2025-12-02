@@ -68,29 +68,28 @@
         "detail": "\nUnlimited Internet Seumur Hidup.",
         "packages": [
             {
-                "family_name": "Xtra Combo Flex",
+                "family_name": "",
                 "family_code": "1134d040-52f8-4889-8682-2f200b7b9d03",
                 "is_enterprise": false,
                 "migration_type": "NONE",
-                "variant_code": "e7720acc-4ea3-4c68-9e6b-a181495b21df",
-                "option_name": "Pros Champion 20GB",
+                "variant_code": "9086bcfa-61e7-40f7-b19a-4562713ec2de",
+                "option_name": "",
                 "order": 1
             },
             {
                 "family_name": "",
-                "family_code": "580c1f94-7dc4-416e-96f6-8faf26567516",
-                "is_enterprise": false,
+                "family_code": "b0a20d74-0c54-4e3b-8f3f-01e7482e50bf",
+                "is_enterprise": true,
                 "migration_type": "NONE",
-                "variant_name": "",
-                "variant_code": "b50f954a-696e-46d0-8700-8e4d38521525",
+                "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
                 "option_name": "",
-                "order": 27
+                "order": 1
             }
         ],
         "payment_for": "SHARE_PACKAGE",
         "ask_overwrite": false,
-        "overwrite_amount": 1000,
-        "token_confirmation_idx": 1,
+        "overwrite_amount": 889750,
+        "token_confirmation_idx": 0,
         "amount_idx": -1
     }
     
