@@ -1,6 +1,6 @@
 [
     {
-        "name": "Masa Aktif 30 Hari",
+        "name": "Masa Aktif 30 Hari V1",
         "price": "Rp0",
         "detail": "Membuat masa aktif menjadi 30 hari dari tanggal pembelian. Tidak bisa akumulasi.\nSupported payment: Balance/pulsa.",
         "packages": [
@@ -12,7 +12,7 @@
                 "variant_name": "Akrab",
                 "variant_code": "555a091d-b1eb-43c2-925f-3da485fecf5f",
                 "option_name": "19GB for 2 Members",
-                "order": 17
+                "order": 19
             },
             {
                 "family_name": "",
@@ -31,9 +31,9 @@
         "amount_idx": -1
     },
     {
-        "name": "Masa Aktif 30 Hari",
-        "price": "Rp1000 (refund)",
-        "detail": "Membuat masa aktif menjadi 30 hari dari tanggal pembelian. Tidak bisa akumulasi.\nSaldo akan di-refund setelah 10-30 menit.\nPastikan metode scan QRIS support refund.\nSupported payment: E-wallet & QRIS.",
+        "name": "Masa Aktif 30 Hari V2",
+        "price": "Rp0",
+        "detail": "Membuat masa aktif menjadi 30 hari dari tanggal pembelian. Tidak bisa akumulasi.\nSupported payment: Balance/pulsa.",
         "packages": [
             {
                 "family_name": "Akrab",
@@ -43,54 +43,22 @@
                 "variant_name": "Akrab",
                 "variant_code": "555a091d-b1eb-43c2-925f-3da485fecf5f",
                 "option_name": "19GB for 2 Members",
-                "order": 17
+                "order": 20
             },
             {
                 "family_name": "",
-                "family_code": "580c1f94-7dc4-416e-96f6-8faf26567516",
-                "is_enterprise": false,
+                "family_code": "b0a20d74-0c54-4e3b-8f3f-01e7482e50bf",
+                "is_enterprise": true,
                 "migration_type": "NONE",
-                "variant_name": "",
-                "variant_code": "b50f954a-696e-46d0-8700-8e4d38521525",
+                "variant_code": "719d093f-6f8d-46a4-8390-6a0003a172ea",
                 "option_name": "",
-                "order": 27
+                "order": 1
             }
         ],
         "payment_for": "BUY_PACKAGE",
         "ask_overwrite": false,
-        "overwrite_amount": 1000,
+        "overwrite_amount": 889750,
         "token_confirmation_idx": 0,
         "amount_idx": -1
-    },
-    {
-        "name": "Internet Murah 1Tb + Unlimited",
-        "price": "Rp0",
-        "detail": "\nUnlimited Internet Seumur Hidup.\nSupported payment:Balance/pulsa.\nNote : Ini Hanya Yg Kagen Rp 0 Gila \n#Ragumu Rugimu 😂🙈",
-        "packages": [
-            {
-                "family_name": "Daily Bonus Quota",
-                "family_code": "1134d040-52f8-4889-8682-2f200b7b9d03",
-                "is_enterprise": false,
-                "migration_type": "NONE",
-                "variant_code": "9086bcfa-61e7-40f7-b19a-4562713ec2de",
-                "option_name": "",
-                "order": 1
-            },
-            {
-                "family_name": "Work & School",
-                "family_code": "5d63dddd-4f90-4f4c-8438-2f005c20151f",
-                "is_enterprise": false,
-                "variant_name": "Work & School",
-                "variant_code": "5b59c55b-0dc7-4f34-a6e9-6afa233ad53b",
-                "option_name": "Education 2GB",
-                "order": 6
-            }
-        ],
-        "payment_for": "SHARE_PACKAGE",
-        "ask_overwrite": false,
-        "overwrite_amount": 0,
-        "token_confirmation_idx": 1,
-        "amount_idx": -1
     }
-    
 ]
